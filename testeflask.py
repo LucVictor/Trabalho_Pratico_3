@@ -12,15 +12,16 @@ db = SQLAlchemy(app)
 
 #Models para o banco de dados
 
-class Produto(db.Model): #Criação do model Produto como objeto.
+class Produto(db.Model):  #Criação do model Produto como objeto.
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(80), nullable=False)
     lucro = db.Column(db.Float, nullable=False)
 
 
-class Trabalhador(db.Model): #Criação do model Trabalhador como objeto.
+class Trabalhador(db.Model):  #Criação do model Trabalhador como objeto.
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(80), nullable=False)
+    custo = db.Column(db.Float, nullable=False)
     carga_horaria = db.Column(db.Integer, nullable=False)
 
 
@@ -32,7 +33,7 @@ def visualizar_produto():
 
 @app.route('/cadastrar_produto', methods=['GET'])
 def cadastro_produto():
-    return render_template('index.html')
+    return render_template('cadastrar_produto.html')
 
 
 @app.route('/deletar_produto/<int>', methods=['GET'])
@@ -48,7 +49,13 @@ def visualizar_trabalhador():
 
 @app.route('/cadastrar_trabalhador', methods=['GET'])
 def cadastrar_trabalhador():
-    return render_template('index.html')
+    if request.method == 'POST':
+        trabalhador = Trabalhador(nome=request.form['nome'], carga_horaria=request.form['carga_horaria'],
+                                  custo=request.form['custo'])
+        db.session.add(trabalhador)
+        db.session.commit()
+
+    return render_template('cadastrar_trabalhador.html')
 
 
 @app.route('/deletar_trabalhador/<int>', methods=['GET'])

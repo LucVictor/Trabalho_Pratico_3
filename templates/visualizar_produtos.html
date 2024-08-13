@@ -1,0 +1,31 @@
+{% extends 'template.html' %}
+{% block content %}
+<div class="border m-auto mt-4 p-1 text-center">
+    <h3>Listagem de produtos</h3>
+    <div>
+        <table class="table table-striped align-middle table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th> Nome </th>
+                    <th> Rentabilidade </th>
+                    <th> Ação </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in produtos %}
+                        <tr>
+                            <td>{{ i.nome }}</td>
+                            <td>{{ i.rentabilidade }}</td>
+                            <td>
+                                <form action="/deletar_produto/{{ i.id }}" method="post">
+                                <input class="btn btn-sm btn-secondary m-2" type="submit" value="Apagar">
+                                </form>
+                            </td>
+                        </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

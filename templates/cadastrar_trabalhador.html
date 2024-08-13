@@ -2,19 +2,18 @@
 {% block content %}
 <div class="border m-auto mt-4 p-1 text-center">
     <h3>Cadastro de trabalhador</h3>
-    <form action="/vencimentos/cadastro" method="post">
-        <div class="mb-3"><label for="nome_trabalhador">Nome do trabalhador:</label>
-            <input class="form-control text-center w-50 m-auto" id="nome_trabalhador" type="text" required></div>
+    <form action="/cadastrar_trabalhador" method="post">
+        <div class="mb-3"><label for="nome">Nome do trabalhador:</label>
+            <input class="form-control text-center w-50 m-auto" id="nome" name="nome" type="text" required></div>
 
-        <div class="mb-3"><label for="custo_trabalhador">Custo mensal:</label>
-            <input class="form-control text-center w-50 m-auto" type="number" id="custo_trabalhador" step="0.00" name="custo_trabalhador" required></div>
+        <div class="mb-3"><label for="custo">Custo mensal:</label>
+            <input class="form-control text-center w-50 m-auto" type="number" id="custo" step="0.00" name="custo" required></div>
 
-        <div class="mb-3"><label for="">Carga horária mensal:</label>
-        <input class="form-control text-center w-50 m-auto" type="number" id="carga_trabalhador" name="carga_trabalhador" required></div>
+        <div class="mb-3"><label for="carga_horaria">Carga horária mensal:</label>
+        <input class="form-control text-center w-50 m-auto" type="number" id="carga_horaria" name="carga_horaria" required></div>
 
         <input class="btn btn-sm btn-secondary m-2" type="submit" value="Cadastrar">
     </form>
-
 </div>
 
 {% endblock %}

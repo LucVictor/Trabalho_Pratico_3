@@ -1,0 +1,33 @@
+{% extends 'template.html' %}
+{% block content %}
+<div class="border m-auto mt-4 p-1 text-center">
+    <h3>Listagem de Trabalhadores</h3>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th> Nome </th>
+                    <th> Carga Horária </th>
+                    <th> Custo </th>
+                    <th> Ação </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in trabalhadores %}
+                        <tr>
+                            <td>{{ i.nome }}</td>
+                            <td>{{ i.carga_horaria }}</td>
+                            <td>{{ i.custo }}</td>
+                            <td>
+                                <form action="/deletar_trabalhador/{{ i.id }}" method="post">
+                                <input class="btn btn-sm btn-secondary m-2" type="submit" value="Apagar">
+                                </form>
+                            </td>
+                        </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

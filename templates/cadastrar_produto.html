@@ -2,11 +2,11 @@
 {% block content %}
 <div class="border m-auto mt-4 p-1 text-center">
     <h3>Cadastro de Produto</h3>
-    <form action="/vencimentos/cadastro" method="post">
-        <div class="mb-3"><label for="nome_produto">Nome do produto:</label>
-            <input class="form-control text-center w-50 m-auto" id="nome_produto" type="text" required></div>
-        <div class="mb-3"><label for="produto_rentabilidade">Rentabilidade:</label>
-            <input class="form-control text-center w-50 m-auto" type="number" id="produto_rentabilidade" name="produto_rentabilidade" required></div>
+    <form action="/cadastrar_produto" method="post">
+        <div class="mb-3"><label for="nome">Nome do produto:</label>
+            <input class="form-control text-center w-50 m-auto" id="nome" name="nome" type="text" required></div>
+        <div class="mb-3"><label for="rentabilidade">Rentabilidade:</label>
+            <input class="form-control text-center w-50 m-auto" type="number" id="rentabilidade" name="rentabilidade" required></div>
 
         <input class="btn btn-sm btn-secondary m-2" type="submit" value="Cadastrar">
     </form>

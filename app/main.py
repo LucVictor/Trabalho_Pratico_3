@@ -4,9 +4,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash  #Bi
 from flask_sqlalchemy import SQLAlchemy  #Biblioteca ORM sqlalchemy para flask
 from app.gauss import eliminacao_gauss_jordan
 
-template_dir = os.path.abspath('./app/templates')
-
-app = Flask(__name__, template_folder=template_dir)  #Definição de aplicação flask
+app = Flask(__name__)  #Definição de aplicação flask
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('SQLALCHEMY_DATABASE_URL', 'mysql+pymysql://usuario:password@endereco/banco')  # Definição do tipo de banco e nome do arquivo do banco.
 db = SQLAlchemy(app)
 
@@ -166,6 +164,3 @@ def resultados():
     resultados = Resultados.query.all() #Busca todos os resultados do banco de dados.
     tamanho = len(resultados) #Calcula a quantidade de resultados.
     return render_template('templates/resultado.html', resultados=resultados, tamanho=tamanho)
-
-if __name__ == "__main__":
-    app.run(debug=True)

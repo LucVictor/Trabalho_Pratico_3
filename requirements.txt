@@ -6,5 +6,4 @@ Jinja2
 gunicorn
 python-dotenv
 pymysql
-redis
 numpy

@@ -1,8 +1,25 @@
 {% extends 'template.html' %}
 {% block content %}
-<div class="border m-auto mt-4 p-1 text-center">
-<table class="table table-striped align-middle table-bordered table-hover">
-    {% for i in range(tamanho) %}<thead>
+        <style>
+        /* Remove o texto em negrito dos cabeçalhos de tabela com a classe personalizada */
+        .fonte th {
+            font-weight: normal;
+        }
+    </style>
+<div class=" w-75  m-auto mt-4 fs-6 p-1 text-center">
+
+    {% for i in range(tamanho) %}
+<div class=" m-auto w-75 mt-4 p-1 text-center">
+    <div class="card border m-auto w-75">
+  <div class="card-header text-center align-items-center justify-content-center d-flex fs-4 font-weight-bold bg-success">
+      RESULTADO
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Informações preenchidas no formulário</h5>
+    <p class="card-text"><pre>
+    {{ resultados[i].tempos }}</pre>
+      <table class="table fonte fs-6 table-sm align-middle table-bordered">
+    <thead>
         <tr>
             <th>Lucratividade (R$)</th>
             <th>{{ resultados[i].produto_1 }}</th>
@@ -16,8 +33,13 @@
             <td>{{ (resultados[i].produto_1_quantidade) | int}}</td>
             <td>{{ resultados[i].produto_2_quantidade | int }}</td>
              <td>{{ resultados[i].produto_3_quantidade | int }}</td>
-        </tr>{% endfor %}
+        </tr>
     </tbody>
 </table>
+  </div>
 </div>
+
+</div>{% endfor %}
+</div>
+
 {% endblock %}

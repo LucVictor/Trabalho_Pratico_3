@@ -1,0 +1,16 @@
+{% extends 'template.html' %}
+{% block content %}
+    <div class=" m-auto w-75 mt-4 p-1 text-center">
+    <div class="card border m-auto w-50 border-danger">
+  <div class="card-header bg-danger border border-danger">
+    ERROR
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Ocorreu algum erro nos parâmetros enviados</h5>
+    <p class="card-text">{{ e }}</p>
+    <a href="#" class="btn btn-danger">Reniciar calculadora</a>
+  </div>
+</div>
+    </div>
+
+{% endblock %}

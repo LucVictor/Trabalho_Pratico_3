@@ -32,13 +32,16 @@ class Trabalhador(db.Model):  #Criação do model Trabalhador como objeto.
 
 class Resultados(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    produto_1 = db.Column(db.String, nullable=False)
-    produto_2 = db.Column(db.String, nullable=False)
-    produto_3 = db.Column(db.String, nullable=False)
+    produto_1 = db.Column(db.String(250), nullable=False)
+    produto_2 = db.Column(db.String(250), nullable=False)
+    produto_3 = db.Column(db.String(250), nullable=False)
     produto_1_quantidade = db.Column(db.Float, nullable=False)
     produto_2_quantidade = db.Column(db.Float, nullable=False)
     produto_3_quantidade = db.Column(db.Float, nullable=False)
     lucratividade = db.Column(db.Float, nullable=False)
+    custos_adicionais = db.Column(db.Float, nullable=False)
+    tempos = db.Column(db.Text(10000), nullable=False)
+
 
 
 @app.route('/', methods=['GET'])
@@ -133,27 +136,39 @@ def calcular():
         restricoes.append(i.carga_horaria) #Adiciona somente a carga horária de cadas trabalahdor a matriz de restrição.
 
     quadros_minimos = request.form["quadros_ninimos"] #Recebe o número de quadros minímos do formulário.
+    custos_adicionais = int(request.form["custos_adicionais"])
     restricoes.append(int(quadros_minimos)) #Adiciona a restrições o número minímo de quadros a serem produzidos.
+    try:
+        resultado = eliminacao_gauss_jordan(matriz_convertida, restricoes) #Envia as duas matrizes ao algoritimo de resolução de gauss jordan
+        produtos = Produto.query.all() #Lista todos os produtos do banco de dados.
+        trabalhadores = Trabalhador.query.all()#Lista todos os trabalhadores do bando de dados.
 
-    resultado = eliminacao_gauss_jordan(matriz_convertida, restricoes) #Envia as duas matrizes ao algoritimo de resolução de gauss jordan
-    produtos = Produto.query.all() #Lista todos os produtos do banco de dados.
-    trabalhadores = Trabalhador.query.all()#Lista todos os trabalhadores do bando de dados.
+        lucro = produtos[0].rentabilidade * resultado[0] + produtos[1].rentabilidade * resultado[1] + produtos[2].rentabilidade * resultado[2]
+        #Calcula a soma dos lucros de cada item, Produto.rentabilidade * Resultado(Quantidade a ser produzida do produto)
 
-    lucro = produtos[0].rentabilidade * resultado[0] + produtos[1].rentabilidade * resultado[1] + produtos[2].rentabilidade * resultado[2]
-    #Calcula a soma dos lucros de cada item, Produto.rentabilidade * Resultado(Quantidade a ser produzida do produto)
+        custo = trabalhadores[0].custo + trabalhadores[1].custo  #Soma todos os custos de todos os trabalhadores do banco de dados.
 
-    custo = trabalhadores[0].custo + trabalhadores[1].custo  #Soma todos os custos de todos os trabalhadores do banco de dados.
+        balanco = lucro - custo - custos_adicionais
+        #Soma o lucro com os custos
 
-    balanco = lucro - custo
-    #Soma o lucro com os custos
+        tempos=""
+        for trabalhador in trabalhadores:
+            for produto, tempo in zip(produtos, form):
+                descricao = f"{trabalhador.nome} produz o {produto.nome} em {tempo} minutos."
+                # Adiciona a frase à string completa com uma nova linha
+                tempos += descricao + "\n"
+            # Adiciona uma linha em branco para separar os trabalhadores
+            tempos += "\n"
+        print(tempos)
+        salvar_resultado = Resultados(produto_1=produtos[0].nome, produto_2=produtos[1].nome, produto_3=produtos[2].nome,
+                                      produto_1_quantidade=resultado[0], produto_2_quantidade=resultado[1],
+                                      produto_3_quantidade=resultado[2], lucratividade=balanco, tempos=tempos, custos_adicionais=custos_adicionais)
+        #Cria o objeto resultado
 
-    salvar_resultado = Resultados(produto_1=produtos[0].nome, produto_2=produtos[1].nome, produto_3=produtos[2].nome,
-                                  produto_1_quantidade=resultado[0], produto_2_quantidade=resultado[1],
-                                  produto_3_quantidade=resultado[2], lucratividade=balanco)
-    #Cria o objeto resultado
-
-    db.session.add(salvar_resultado) #Adiciona o objeto resultado no fila.
-    db.session.commit() #Grava o resultado no banco de dados.
+        db.session.add(salvar_resultado) #Adiciona o objeto resultado no fila.
+        db.session.commit() #Grava o resultado no banco de dados.
+    except ValueError as e:
+        return render_template('erro.html', e=e)
 
     return redirect(url_for('resultados')) #Redireciona para página de resultados
 
@@ -163,3 +178,8 @@ def resultados():
     resultados = Resultados.query.all() #Busca todos os resultados do banco de dados.
     tamanho = len(resultados) #Calcula a quantidade de resultados.
     return render_template('/resultado.html', resultados=resultados, tamanho=tamanho)
+
+@app.route('/erro', methods=['GET', 'POST'])
+def erro():
+    db.create_all()
+    return render_template('erro.html')

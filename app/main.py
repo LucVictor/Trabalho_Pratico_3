@@ -2,7 +2,7 @@
 import os  #Biblioteca de acesso a arquivos do sistema operacional.
 from flask import Flask, render_template, request, url_for, redirect, flash  #Biblioteca flask
 from flask_sqlalchemy import SQLAlchemy  #Biblioteca ORM sqlalchemy para flask
-from app.gauss import eliminacao_gauss_jordan
+from gauss import eliminacao_gauss_jordan
 
 basedir = os.path.abspath(os.path.dirname(__file__))  #Definição do caminho(path) raíz(root)
 app = Flask(__name__)  #Definição de aplicação flask

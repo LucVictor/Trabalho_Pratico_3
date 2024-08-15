@@ -6,8 +6,7 @@ from gauss import eliminacao_gauss_jordan
 
 basedir = os.path.abspath(os.path.dirname(__file__))  #Definição do caminho(path) raíz(root)
 app = Flask(__name__)  #Definição de aplicação flask
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-        'sqlite:///' + os.path.join(basedir, 'database.db'))  # Definição do tipo de banco e nome do arquivo do banco.
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('SQLALCHEMY_DATABASE_URL', 'mysql+pymysql://usuario:password@endereco/banco')  # Definição do tipo de banco e nome do arquivo do banco.
 db = SQLAlchemy(app)
 
 #Variáveis constantes globais de limite
@@ -43,13 +42,17 @@ class Resultados(db.Model):
     lucratividade = db.Column(db.Float, nullable=False)
 
 
+@app.route('/', methods=['GET'])
+def index():
+    db.create_all()
+    return render_template('index.html')
 
 
 #Rotas Produtos
 @app.route('/visualizar_produtos', methods=['GET']) #Rota que exibe os produtos.
 def visualizar_produtos():
     produtos = Produto.query.all() #Busca todos os produtos do banco de dados.
-    return render_template('visualizar_produtos.html', produtos=produtos)
+    return render_template('templates/visualizar_produtos.html', produtos=produtos)
 
 
 @app.route('/cadastrar_produto', methods=['GET', 'POST']) #Rota para cadastro de produtos.
@@ -65,7 +68,7 @@ def cadastro_produto():
             return redirect(url_for('visualizar_produtos')) #Redireciona para a página de exibir produtos.
         except: #Caso aconteça algum erro
             return redirect(url_for('visualizar_produtos'))  #Redireciona para a página de exibir produtos.
-    return render_template('cadastrar_produto.html')
+    return render_template('templates/cadastrar_produto.html')
 
 
 @app.route('/deletar_produto/<id>', methods=['GET', 'POST']) #Rota que deleta produtos cadastrados.
@@ -80,7 +83,7 @@ def deletar_produto(id):
 @app.route('/visualizar_trabalhador', methods=['GET'])  #Rota que exibe os produtos.
 def visualizar_trabalhador():
     trabalhadores = Trabalhador.query.all()  #Busca todos os produtos do banco de dados.
-    return render_template('visualizar_trabalhador.html', trabalhadores=trabalhadores)
+    return render_template('templates/visualizar_trabalhador.html', trabalhadores=trabalhadores)
 
 
 @app.route('/cadastrar_trabalhador', methods=['GET', 'POST']) #Rota para cadastro de trabalhadores.
@@ -97,7 +100,7 @@ def cadastrar_trabalhador():
             return redirect(url_for('visualizar_trabalhador')) #Redireciona para a página de exibir trabalhadores.
         except: #Caso aconteça algum erro
             return redirect(url_for('cadastrar_trabalhador')) #Redireciona para a página de exibir trabalhadores.
-    return render_template('cadastrar_trabalhador.html')
+    return render_template('templates/cadastrar_trabalhador.html')
 
 
 @app.route('/deletar_trabalhador/<id>', methods=['GET', 'POST'])  #Rota que deleta trabalhador cadastrados.
@@ -111,7 +114,7 @@ def deletar_trabalhador(id):
 def calculadora():
     trabalhador = Trabalhador.query.all() #Busca todos os trabalhadores do banco de dados
     produtos = Produto.query.all() #Busca todos os produtos do banco de dados
-    return render_template('calculadora.html', trabalhador=trabalhador, produtos=produtos)
+    return render_template('templates/calculadora.html', trabalhador=trabalhador, produtos=produtos)
 
 @app.route('/calcular', methods=['POST']) #Rota responsável pelo cálculo
 def calcular():
@@ -161,7 +164,7 @@ def calcular():
 def resultados():
     resultados = Resultados.query.all() #Busca todos os resultados do banco de dados.
     tamanho = len(resultados) #Calcula a quantidade de resultados.
-    return render_template('resultado.html', resultados=resultados, tamanho=tamanho)
+    return render_template('templates/resultado.html', resultados=resultados, tamanho=tamanho)
 
 if __name__ == "__main__":
     app.run(debug=True)

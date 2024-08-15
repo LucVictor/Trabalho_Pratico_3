@@ -1,0 +1,9 @@
+blinker
+click
+Flask
+Flask-SQLAlchemy
+Jinja2
+gunicorn
+python-dotenv
+pymysql
+redis

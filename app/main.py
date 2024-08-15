@@ -4,7 +4,6 @@ from flask import Flask, render_template, request, url_for, redirect, flash  #Bi
 from flask_sqlalchemy import SQLAlchemy  #Biblioteca ORM sqlalchemy para flask
 from gauss import eliminacao_gauss_jordan
 
-basedir = os.path.abspath(os.path.dirname(__file__))  #Definição do caminho(path) raíz(root)
 app = Flask(__name__)  #Definição de aplicação flask
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('SQLALCHEMY_DATABASE_URL', 'mysql+pymysql://usuario:password@endereco/banco')  # Definição do tipo de banco e nome do arquivo do banco.
 db = SQLAlchemy(app)

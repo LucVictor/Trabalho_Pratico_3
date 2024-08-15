@@ -7,14 +7,16 @@
 </style>
 <div class="border m-auto w-25 mt-4 p-1 text-center">
     <h3>Calculadora</h3>
-    <form action="/cadastrar_produto" method="post">
+    <form action="/calcular" method="post">
         {% for i in trabalhador %}
             <div class="mt-4 mb-4"><h4>Trabalhador {{ i.nome }} </h4>
             {% for k in produtos %}
                 <div class="mb-4"><label for="nome"> O trabalhador <span class="negrito" >{{ i.nome }}</span> produz uma unidade do produto <span class="negrito" >{{ k.nome }}</span> em quantos minutos?</label>
-            <input class="form-control text-center w-25 m-auto" id="tempo" name="tempo_{{i}}_{{ k }}" type="time" required></div>
+            <input class="form-control text-center w-25 m-auto" id="tempo" name="tempo" type="time" required></div>
             {% endfor %}
         </div>{% endfor %}
+        <div class="mb-4"><label for="nome"> A <span class="negrito" >venda mínima mensal de quadro decorativo </span> que a empresa realiza por encomenda>?</span> </label>
+            <input class="form-control text-center w-25 m-auto" id="quadros_ninimos" name="quadros_ninimos" type="number    " required></div>
         <input class="btn btn-sm btn-secondary m-2" type="submit" value="Calcular">
     </form>
 

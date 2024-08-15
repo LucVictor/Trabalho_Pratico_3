@@ -1,25 +1,25 @@
-
-
-
-matriz = [[1, 4, 5, 6], [2, 5, 7, 9], [1, 3, 8, 6]]
-
-
-for k in range(len(matriz)):
-    pivor= float(matriz[0][0])
-    if k > 0:
-        for i in range(len(matriz[k])):
-            multiplicador = matriz[k][0] / pivor
-            elemento = matriz[k][i] - (pivor * (multiplicador))
-            matriz[k][i] = elemento
-
-print(matriz)
-
-for k in range(len(matriz)):
-    pivor = float(matriz[1][1])
-    if k > 1:
-        for i in range(len(matriz[k])):
-            if i > 0:
-                multiplicador = matriz[k][1] / pivor
-                elemento = matriz[k][i] - pivor * (multiplicador)
-                matriz[k][i] = elemento
-print(matriz)
+import numpy as np
+def eliminacao_gauss_jordan(a, b):
+    a = np.array(a, dtype=float)
+    b = np.array(b, dtype=float)
+    n = len(b)
+    for k in range(n):
+        # Encontrar a linha de pivô com o valor absoluto máximo na coluna k
+        linha_max = max(range(k, n), key=lambda i: abs(a[i][k]))
+        # Verificar se a matriz é singular (nenhum pivô não nulo encontrado)
+        if a[linha_max][k] == 0:
+            raise ValueError("Matriz é singular.")
+        # Trocar a linha atual com a linha de pivô
+        a[[k, linha_max]] = a[[linha_max, k]]
+        b[[k, linha_max]] = b[[linha_max, k]]
+        # Normalizar a linha do pivô
+        fator = a[k][k]
+        a[k] = a[k] / fator
+        b[k] = b[k] / fator
+        # Eliminar todas as outras entradas na coluna k
+        for i in range(n):
+            if i != k:
+                fator = a[i][k]
+                a[i] -= fator * a[k]
+                b[i] -= fator * b[k]
+    return b

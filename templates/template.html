@@ -18,7 +18,10 @@
   <nav class="navbar navbar-light bg-light justify-content-between">
     <div><a class="ms-1 navbar-brand" href="#">Calculadora</a></div>
      <div class="d-flex me-1">
-         <button class="btn btn-secondary btn-sm" type="button" aria-expanded="true"><a class="dropdown-item" href="#">Iniciar calculadora</a>
+         <button class="btn btn-secondary btn-sm" type="button" aria-expanded="true"><a class="dropdown-item" href="/calculadora">Iniciar calculadora</a>
+
+          </button>
+         <button class="btn btn-secondary ms-1 btn-sm" type="button" aria-expanded="true"><a class="dropdown-item" href="/resultados">Resultados</a>
 
           </button>
         <div class="dropdown ms-1">
@@ -26,8 +29,8 @@
             Produtos
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#">Visualizar</a></li>
-            <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+            <li><a class="dropdown-item" href="/visualizar_produtos">Visualizar</a></li>
+            <li><a class="dropdown-item" href="/cadastrar_produto">Cadastrar</a></li>
           </ul>
         </div>
                  <div class="dropdown ms-1">
@@ -35,11 +38,12 @@
             Trabalhador
           </button>
           <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Visualizar</a></li>
-            <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+            <li><a class="dropdown-item" href="/visualizar_trabalhador">Visualizar</a></li>
+            <li><a class="dropdown-item" href="/cadastrar_trabalhador">Cadastrar</a></li>
           </ul>
         </div>
     </div>
+
     </nav>
   <div class="d-flex">
     {% block content %} {% endblock %}

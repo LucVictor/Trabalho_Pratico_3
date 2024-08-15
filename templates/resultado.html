@@ -1,0 +1,23 @@
+{% extends 'template.html' %}
+{% block content %}
+<div class="border m-auto mt-4 p-1 text-center">
+<table class="table table-striped align-middle table-bordered table-hover">
+    {% for i in range(tamanho) %}<thead>
+        <tr>
+            <th>Lucratividade (R$)</th>
+            <th>{{ resultados[i].produto_1 }}</th>
+            <th>{{ resultados[i].produto_2 }}</th>
+             <th>{{ resultados[i].produto_3 }}</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>    <td>{{ resultados[i].lucratividade  }}</td>
+            <td>{{ (resultados[i].produto_1_quantidade) | int}}</td>
+            <td>{{ resultados[i].produto_2_quantidade | int }}</td>
+             <td>{{ resultados[i].produto_3_quantidade | int }}</td>
+        </tr>{% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

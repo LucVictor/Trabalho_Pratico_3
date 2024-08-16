@@ -32,7 +32,7 @@ def converter_tempo_para_decimal(tempo):
 def formatar_tempos(trabalhador, tempos, produtos):
     resultado = []
     for i in range(len(produtos)):
-        resultado.append(f"{trabalhador.nome} produz o {produtos[i].nome} em {converter_decimal_para_horas(tempos[i])} minutos.")
+        resultado.append(f"{trabalhador.nome} produz o {produtos[i].nome} em {converter_decimal_para_horas(tempos[i])}.")
     return "\n".join(resultado)
 
 

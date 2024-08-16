@@ -16,6 +16,28 @@ def quantidade_de_trabalhador(): #Função que retorna o número de trabalhadore
     quantidade = Trabalhador.query.count()
     return int(quantidade)
 
+
+def converter_decimal_para_horas(decimal):
+    horas = int(decimal)
+    minutos = round((decimal - horas) * 60)
+    return f'{horas:02d}:{minutos:02d}h'
+
+def converter_tempo_para_decimal(tempo):
+    tempo = tempo.replace('h', '').strip()
+    horas, minutos = map(int, tempo.split(':'))
+    horas_decimais = horas + minutos / 60
+    return horas_decimais
+
+
+def formatar_tempos(trabalhador, tempos, produtos):
+    resultado = []
+    for i in range(len(produtos)):
+        resultado.append(f"{trabalhador.nome} produz o {produtos[i].nome} em {converter_decimal_para_horas(tempos[i])} minutos.")
+    return "\n".join(resultado)
+
+
+
+
 #Models para o banco de dados
 
 class Produto(db.Model):  #Criação do model Produto como objeto.
@@ -122,9 +144,9 @@ def calcular():
     form = request.form.getlist("tempo") #Recebe todos os dados de tempo do formulário
     matriz = [] #Criação da matriz para inicial.
     for i in form: #Pecorre cada item que existe na variável que contém os tempos
-        hora, minuto = i.split(":") #Separação de horas e minutos
-        conversao_hora = int(hora) + (int(minuto) / 60) #Conversão de minutos em horas
-        matriz.append(conversao_hora) #Adiciona o tempo convertido em horas para a matriz inicial.
+        conversao_decimal = converter_tempo_para_decimal(i)
+        matriz.append(conversao_decimal) #Adiciona o tempo convertido em horas para a matriz inicial.
+
     metade = len(matriz) // quantidade_de_trabalhador() #Divisão da quantidade de itens da matriz pelo número de trabalhadores
     matriz_linha_1 = matriz[:metade] #Linha 1 referente ao trabalhador 1(exemplo: Artesão)
     matriz_linha_2 = matriz[metade:] #Linha 2 referente ao trabalhador 2(exemplo: Coletor)
@@ -151,18 +173,13 @@ def calcular():
         balanco = lucro - custo - custos_adicionais
         #Soma o lucro com os custos
 
-        tempos=""
-        for trabalhador in trabalhadores:
-            for produto, tempo in zip(produtos, form):
-                descricao = f"{trabalhador.nome} produz o {produto.nome} em {tempo} minutos."
-                # Adiciona a frase à string completa com uma nova linha
-                tempos += descricao + "\n"
-            # Adiciona uma linha em branco para separar os trabalhadores
-            tempos += "\n"
-        print(tempos)
+        descricao_trabalhador_1 = formatar_tempos(trabalhadores[0], matriz_linha_1, produtos)
+        descricao_trabalhador_2 = formatar_tempos(trabalhadores[1], matriz_linha_2, produtos)
+
+        descricao_final = f"{descricao_trabalhador_1}\n\n{descricao_trabalhador_2}"
         salvar_resultado = Resultados(produto_1=produtos[0].nome, produto_2=produtos[1].nome, produto_3=produtos[2].nome,
                                       produto_1_quantidade=resultado[0], produto_2_quantidade=resultado[1],
-                                      produto_3_quantidade=resultado[2], lucratividade=balanco, tempos=tempos, custos_adicionais=custos_adicionais)
+                                      produto_3_quantidade=resultado[2], lucratividade=balanco, tempos=descricao_final, custos_adicionais=custos_adicionais)
         #Cria o objeto resultado
 
         db.session.add(salvar_resultado) #Adiciona o objeto resultado no fila.

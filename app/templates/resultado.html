@@ -21,7 +21,8 @@
       <table class="table fonte fs-6 table-sm align-middle table-bordered">
     <thead>
         <tr>
-            <th>Lucratividade (R$)</th>
+            <th>Lucratividade</th>
+            <th>Custos Adicionais</th>
             <th>{{ resultados[i].produto_1 }}</th>
             <th>{{ resultados[i].produto_2 }}</th>
              <th>{{ resultados[i].produto_3 }}</th>
@@ -29,10 +30,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr>    <td>{{ resultados[i].lucratividade  }}</td>
-            <td>{{ (resultados[i].produto_1_quantidade) | int}}</td>
-            <td>{{ resultados[i].produto_2_quantidade | int }}</td>
-             <td>{{ resultados[i].produto_3_quantidade | int }}</td>
+        <tr>    <td>R${{ "{:.2f}".format(resultados[i].lucratividade) }}</td>
+            <td>R${{ "{:.2f}".format(resultados[i].custos_adicionais)  }}</td>
+            <td>{{ (resultados[i].produto_1_quantidade) | int}} un.</td>
+            <td>{{ resultados[i].produto_2_quantidade | int }} un.</td>
+             <td>{{ resultados[i].produto_3_quantidade | int }} un.</td>
         </tr>
     </tbody>
 </table>

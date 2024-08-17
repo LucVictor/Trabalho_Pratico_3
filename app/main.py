@@ -189,4 +189,4 @@ def calcular():
 def resultados():
     resultado = Resultados.query.all() #Busca todos os resultados do banco de dados.
     tamanho = len(resultado) #Calcula a quantidade de resultados.
-    return render_template('/resultado.html', resultados=resultados, tamanho=tamanho)
+    return render_template('/resultado.html', resultados=resultado, tamanho=tamanho)

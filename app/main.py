@@ -1,6 +1,6 @@
 #Importação de bibliotecas
 import os  #Biblioteca de acesso a arquivos do sistema operacional.
-from flask import Flask, render_template, request, url_for, redirect, flash  #Biblioteca flask
+from flask import Flask, render_template, request, url_for, redirect  #Biblioteca flask
 from flask_sqlalchemy import SQLAlchemy  #Biblioteca ORM sqlalchemy para flask
 from app.gauss import eliminacao_gauss_jordan
 
@@ -10,32 +10,30 @@ db = SQLAlchemy(app)
 
 #Variáveis constantes globais de limite
 LIMITE_DE_TRABALHADOR = 2  #Limite definido pelo modelo
-LIMITE_DE_PRODUTOS = 3  #Limite defenido pelo modelo
+LIMITE_DE_PRODUTOS = 3  #Limite definido pelo modelo
 
 def quantidade_de_trabalhador(): #Função que retorna o número de trabalhadores no banco de dados.
     quantidade = Trabalhador.query.count()
     return int(quantidade)
 
 
-def converter_decimal_para_horas(decimal):
+def converter_decimal_para_horas(decimal): #Função para converter decimal para horas
     horas = int(decimal)
     minutos = round((decimal - horas) * 60)
     return f'{horas:02d}:{minutos:02d}h'
 
-def converter_tempo_para_decimal(tempo):
+def converter_tempo_para_decimal(tempo): #Função para converter horas para decimal
     tempo = tempo.replace('h', '').strip()
     horas, minutos = map(int, tempo.split(':'))
     horas_decimais = horas + minutos / 60
     return horas_decimais
 
 
-def formatar_tempos(trabalhador, tempos, produtos):
-    resultado = []
+def formatar_para_salvar(trabalhador, tempos, produtos): #Função para formatar os dados inseridos na tela de cálculo.
+    texto = []
     for i in range(len(produtos)):
-        resultado.append(f"{trabalhador.nome} produz o {produtos[i].nome} em {converter_decimal_para_horas(tempos[i])}.")
-    return "\n".join(resultado)
-
-
+        texto.append(f"{trabalhador.nome} produz o {produtos[i].nome} em {converter_decimal_para_horas(tempos[i])}.")
+    return "\n".join(texto)
 
 
 #Models para o banco de dados
@@ -65,8 +63,7 @@ class Resultados(db.Model):
     tempos = db.Column(db.Text(10000), nullable=False)
 
 
-
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET']) #Rota que exibe página principal
 def index():
     return render_template('index.html')
 
@@ -126,7 +123,7 @@ def cadastrar_trabalhador():
     return render_template('/cadastrar_trabalhador.html')
 
 
-@app.route('/deletar_trabalhador/<id>', methods=['GET', 'POST'])  #Rota que deleta trabalhador cadastrados.
+@app.route('/deletar_trabalhador/<id>', methods=['GET', 'POST'])  #Rota que deleta trabalhadores cadastrados.
 def deletar_trabalhador(id):
     trabalhador = Trabalhador.query.get(id)  #Recebe o id do trabalhador.
     db.session.delete(trabalhador) #Coloca o objeto trabalhador na fila.
@@ -150,18 +147,18 @@ def calcular():
     metade = len(matriz) // quantidade_de_trabalhador() #Divisão da quantidade de itens da matriz pelo número de trabalhadores
     matriz_linha_1 = matriz[:metade] #Linha 1 referente ao trabalhador 1(exemplo: Artesão)
     matriz_linha_2 = matriz[metade:] #Linha 2 referente ao trabalhador 2(exemplo: Coletor)
-    matriz_linha_3 = [0, 0, 1] #Defenido pelo número minímo de quadros a ser produzido.
+    matriz_linha_3 = [0, 0, 1] #Defenido pelo número mínimo de quadros a ser produzido.
     matriz_convertida = matriz_linha_1, matriz_linha_2, matriz_linha_3 #Matriz final contendo as 3 linhas.
 
     restricoes=[] #Criação da matriz de restrição
     for i in Trabalhador.query.all(): #Pecorre todos os trabalhadores cadastrados.
-        restricoes.append(i.carga_horaria) #Adiciona somente a carga horária de cadas trabalahdor a matriz de restrição.
+        restricoes.append(i.carga_horaria) #Adiciona somente a carga horária de cadas trabalhador a matriz de restrição.
 
-    quadros_minimos = request.form["quadros_ninimos"] #Recebe o número de quadros minímos do formulário.
+    quadros_minimos = request.form["quadros_ninimos"] #Recebe o número de quadros mínimo do formulário.
     custos_adicionais = int(request.form["custos_adicionais"])
-    restricoes.append(int(quadros_minimos)) #Adiciona a restrições o número minímo de quadros a serem produzidos.
-    try:
-        resultado = eliminacao_gauss_jordan(matriz_convertida, restricoes) #Envia as duas matrizes ao algoritimo de resolução de gauss jordan
+    restricoes.append(int(quadros_minimos)) #Adiciona a restrições o número mínimo de quadros a serem produzidos.
+    try: #tenta realizar o cálculo chamando o algoritmo de resolução.
+        resultado = eliminacao_gauss_jordan(matriz_convertida, restricoes) #Envia as duas matrizes ao algoritmo de resolução de gauss jordan.
         produtos = Produto.query.all() #Lista todos os produtos do banco de dados.
         trabalhadores = Trabalhador.query.all()#Lista todos os trabalhadores do bando de dados.
 
@@ -170,21 +167,19 @@ def calcular():
 
         custo = trabalhadores[0].custo + trabalhadores[1].custo  #Soma todos os custos de todos os trabalhadores do banco de dados.
 
-        balanco = lucro - custo - custos_adicionais
-        #Soma o lucro com os custos
+        balanco = lucro - custo - custos_adicionais #Soma o lucro com os custos
 
-        descricao_trabalhador_1 = formatar_tempos(trabalhadores[0], matriz_linha_1, produtos)
-        descricao_trabalhador_2 = formatar_tempos(trabalhadores[1], matriz_linha_2, produtos)
+        descricao_trabalhador_1 = formatar_para_salvar(trabalhadores[0], matriz_linha_1, produtos) #Chama a função para formatar o texto a ser salvo.
+        descricao_trabalhador_2 = formatar_para_salvar(trabalhadores[1], matriz_linha_2, produtos) #Chama a função para formatar o texto a ser salvo.
 
-        descricao_final = f"{descricao_trabalhador_1}\n\n{descricao_trabalhador_2}"
+        descricao_final = f"{descricao_trabalhador_1}\n\n{descricao_trabalhador_2}" #Adiciona as duas descrições de cálculos a variável a ser salva.
         salvar_resultado = Resultados(produto_1=produtos[0].nome, produto_2=produtos[1].nome, produto_3=produtos[2].nome,
                                       produto_1_quantidade=resultado[0], produto_2_quantidade=resultado[1],
                                       produto_3_quantidade=resultado[2], lucratividade=balanco, tempos=descricao_final, custos_adicionais=custos_adicionais)
-        #Cria o objeto resultado
-
+        #Salva o resultado no banco de dados
         db.session.add(salvar_resultado) #Adiciona o objeto resultado no fila.
         db.session.commit() #Grava o resultado no banco de dados.
-    except ValueError as e:
+    except ValueError as e: #Caso o algoritmo retorne algum erro, será exibido na tela de erro.
         return render_template('erro.html', e=e)
 
     return redirect(url_for('resultados')) #Redireciona para página de resultados
@@ -192,11 +187,6 @@ def calcular():
 
 @app.route('/resultados', methods=['GET']) #Rota que exibe os resultados.
 def resultados():
-    resultados = Resultados.query.all() #Busca todos os resultados do banco de dados.
-    tamanho = len(resultados) #Calcula a quantidade de resultados.
+    resultado = Resultados.query.all() #Busca todos os resultados do banco de dados.
+    tamanho = len(resultado) #Calcula a quantidade de resultados.
     return render_template('/resultado.html', resultados=resultados, tamanho=tamanho)
-
-@app.route('/erro', methods=['GET', 'POST'])
-def erro():
-    db.create_all()
-    return render_template('erro.html')

@@ -1,14 +1,25 @@
 {% extends 'template.html' %}
 {% block content %}
+    <style>
+    .negrito {
+        font-weight: bold;
+    }
+    .fundo{
+        background-color: lightgrey;
+    }
+    .tamanho{
+        width: 75px;
+    }
+</style>
     <div class=" m-auto w-75 mt-4 p-1 text-center">
-    <div class="card border m-auto w-50 border-danger">
+    <div class="card border fundo m-auto w-50 border-danger">
   <div class="card-header bg-danger border border-danger">
-    ERROR
+    <i class="bi bi-bug-fill"></i> ERROR
   </div>
   <div class="card-body">
     <h5 class="card-title">Ocorreu algum erro nos parâmetros enviados</h5>
     <p class="card-text">{{ e }}</p>
-    <a href="/calculadora" class="btn btn-danger">Reniciar calculadora</a>
+    <a href="/calculadora" class="btn btn-danger">Reniciar calculadora <i class="bi bi-bootstrap-reboot"></i></a>
   </div>
 </div>
     </div>

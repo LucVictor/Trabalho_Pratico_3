@@ -1,6 +1,17 @@
 {% extends 'template.html' %}
 {% block content %}
-<div class="border m-auto mt-4 p-1 text-center">
+<style>
+    .negrito {
+        font-weight: bold;
+    }
+    .fundo{
+        background-color: lightgrey;
+    }
+    .tamanho{
+        width: 75px;
+    }
+</style>
+<div class="border fundo rounded m-auto mt-4 p-1 text-center">
     <h3>Cadastro de trabalhador</h3>
     <form action="/cadastrar_trabalhador" method="post">
         <div class="mb-3"><label for="nome">Nome do trabalhador:</label>

@@ -4,8 +4,14 @@
     .negrito {
         font-weight: bold;
     }
+    .fundo{
+        background-color: lightgrey;
+    }
+    .tamanho{
+        width: 75px;
+    }
 </style>
-<div class="border m-auto w-75 mt-4 p-1 text-center">
+<div class="border border-dark fundo rounded  m-auto w-50 mt-4 p-1 text-center">
     <h3>Calculadora</h3>
     <form action="/calcular" method="post">
         {% for i in trabalhador %}
@@ -14,11 +20,11 @@
                 <div class="mb-4 d-flex "><label for="nome"> O trabalhador <span class="negrito" >{{ i.nome }}</span> produz uma unidade do produto <span class="negrito" >{{ k.nome }}</span> em quantos minutos?</label>
             <input class="form-control text-center w-25 m-auto" id="tempo" name="tempo" type="time" required></div>
             {% endfor %}
-        </div>{% endfor %}
-        <div class="mb-4"><label for="nome"> A <span class="negrito" >Venda mínima mensal de quadro decorativo </span> que a empresa realiza por encomenda?</span> </label>
-            <input class="form-control text-center w-25 m-auto" id="quadros_ninimos" name="quadros_ninimos" type="number" required></div>
-            <div class="mb-4"><label for="nome"> A <span class="negrito" >Custos adicionais com matérias e operacionais</span>(Excluindo os salários)</span> </label>
-            <input class="form-control text-center w-25 m-auto" id="custos_adicionais" name="custos_adicionais" type="number" required></div>
+        </div><hr class="hr" />{% endfor %}
+        <div class="mt-4 mb-4  m-auto align-middle "><label for="nome">  <span class="negrito" >A Venda mínima mensal de quadro decorativo </span> que a empresa realiza por encomenda?</span> </label>
+            <input class="form-control text-center tamanho m-auto" id="quadros_ninimos" name="quadros_ninimos" type="number" required></div>
+            <div class="mt-4 mb-4 m-auto align-middle "><label for="nome"><span class="negrito" >Custos adicionais com matérias e operacionais</span>(Excluindo os salários)?</span> </label>
+            <input class="form-control text-center tamanho m-auto" id="custos_adicionais" name="custos_adicionais" type="number" required></div>
         <input class="btn btn-sm btn-secondary m-2" type="submit" value="Calcular">
     </form>
 

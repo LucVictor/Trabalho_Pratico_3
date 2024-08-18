@@ -91,9 +91,9 @@ def cadastro_produto():
     return render_template('/cadastrar_produto.html')
 
 
-@app.route('/deletar_produto/<id>', methods=['GET', 'POST']) #Rota que deleta produtos cadastrados.
-def deletar_produto(id):
-    produto = Produto.query.get(id) #Recebe o id do produto.
+@app.route('/deletar_produto/<int:produto_id>', methods=['GET', 'POST']) #Rota que deleta produtos cadastrados.
+def deletar_produto(produto_id):
+    produto = Produto.query.get(produto_id) #Recebe o id do produto.
     db.session.delete(produto) #Coloca o objeto produto na fila.
     db.session.commit() #Deleta o produto do banco de dados.
     return redirect(url_for('visualizar_produtos')) #Redireciona para a página de exibir produtos.
@@ -123,9 +123,9 @@ def cadastrar_trabalhador():
     return render_template('/cadastrar_trabalhador.html')
 
 
-@app.route('/deletar_trabalhador/<id>', methods=['GET', 'POST'])  #Rota que deleta trabalhadores cadastrados.
-def deletar_trabalhador(id):
-    trabalhador = Trabalhador.query.get(id)  #Recebe o id do trabalhador.
+@app.route('/deletar_trabalhador/<int:trabalhador_id>', methods=['GET', 'POST'])  #Rota que deleta trabalhadores cadastrados.
+def deletar_trabalhador(trabalhador_id):
+    trabalhador = Trabalhador.query.get_or_404(trabalhador_id)  #Recebe o id do trabalhador.
     db.session.delete(trabalhador) #Coloca o objeto trabalhador na fila.
     db.session.commit()  #Deleta o trabalhador do banco de dados.
     return redirect(url_for('visualizar_trabalhador')) #Redireciona para a página de exibir trabalhador.

@@ -193,7 +193,7 @@ def calcular():
 
 @app.route('/resultados', methods=['GET']) #Rota que exibe os resultados.
 def resultados():
-    resultado = Resultados.query.all() #Busca todos os resultados do banco de dados.
+    resultado = Resultados.query.order_by(Resultados.id.desc()).all() #Busca todos os resultados do banco de dados.
     tamanho = len(resultado) #Calcula a quantidade de resultados.
     return render_template('/resultado.html', resultados=resultado, tamanho=tamanho)
 

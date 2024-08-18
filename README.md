@@ -24,10 +24,10 @@ O objetivo principal da aplicação é otimizar a gestão de trabalhadores e pro
 
 - **Python 3.8+**
 - **Flask:** Framework web utilizado para desenvolvimento da aplicação.
-- **SQLAlchemy:** ORM utilizado para gerenciamento do banco de dados SQLite.
+- **SQLAlchemy:** ORM utilizado para gerenciamento do banco de dados mariaDB.
 - **Numpy:** Biblioteca utilizada para operações matemáticas, incluindo a implementação do Método de Gauss-Jordan.
 - **HTML & Bootstrap:** Utilizados para a interface do usuário.
-- **SQLite:** Banco de dados para persistência das informações da cooperativa.
+- **MariaDB:** Banco de dados para salvar as informações.
 
 ## Estrutura do Projeto
 

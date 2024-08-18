@@ -1,5 +1,57 @@
 {% extends 'template.html' %}
 {% block content %}
+<div class="container mt-3 w-50">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title text-center">Guia Simples para Usar a Calculadora</h2>
 
+      <h4 class="mt-4">Passo 1: Cadastre os Produtos</h4>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">No canto superior direito da tela, clique no menu <strong>Produtos</strong>.</li>
+        <li class="list-group-item">Escolha a opção <strong>Cadastrar</strong>.</li>
+        <li class="list-group-item">No campo <strong>Nome do produto</strong>, digite o nome do produto que você deseja cadastrar.</li>
+        <li class="list-group-item">No campo <strong>Lucratividade</strong>, digite o valor do lucro que você ganha ao vender uma unidade desse produto (em reais).</li>
+        <li class="list-group-item">Clique em <strong>Salvar</strong> ou <strong>Confirmar</strong> para finalizar.</li>
+      </ol>
+
+      <h4 class="mt-4">Passo 2: Cadastre os Trabalhadores</h4>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">No canto superior direito da tela, clique no menu <strong>Trabalhadores</strong>.</li>
+        <li class="list-group-item">Escolha a opção <strong>Cadastrar</strong>.</li>
+        <li class="list-group-item">No campo <strong>Nome do trabalhador</strong>, digite o nome ou profissão do trabalhador.</li>
+        <li class="list-group-item">No campo <strong>Custo mensal</strong>, digite quanto você paga ao trabalhador por mês (em reais).</li>
+        <li class="list-group-item">No campo <strong>Carga horária mensal</strong>, digite quantas horas por mês o trabalhador trabalha.</li>
+        <li class="list-group-item">Clique em <strong>Salvar</strong> ou <strong>Confirmar</strong> para finalizar.</li>
+      </ol>
+
+      <h4 class="mt-4">Passo 3: Inicie o Cálculo</h4>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Depois de cadastrar os produtos e os trabalhadores, vá até o canto superior direito da tela.</li>
+        <li class="list-group-item">Clique no botão <strong>Iniciar</strong> para começar a calcular.</li>
+        <li class="list-group-item">Na nova tela que aparecer, preencha as seguintes informações:</li>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">O tempo que cada trabalhador leva para produzir uma unidade de cada produto. (Digite em minutos ou horas).</li>
+          <li class="list-group-item">A quantidade mínima de vendas mensais que você espera para cada produto.</li>
+          <li class="list-group-item">Os custos adicionais, como materiais e operações (em reais). <em>Não inclua os salários dos trabalhadores aqui.</em></li>
+        </ul>
+        <li class="list-group-item">Quando terminar, clique em <strong>Calcular</strong>.</li>
+      </ol>
+
+      <h4 class="mt-4">Passo 4: Veja os Resultados</h4>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">Após clicar em <strong>Calcular</strong>, você será levado para a página de resultados.</li>
+        <li class="list-group-item">Aqui, você verá uma tabela com os detalhes dos seus cálculos:</li>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Lucratividade:</strong> O lucro total que você terá por mês.</li>
+          <li class="list-group-item"><strong>Custos Adicionais:</strong> Os custos extras que você inseriu.</li>
+          <li class="list-group-item"><strong>Produtos:</strong> A quantidade de cada produto (vaso de plantas, cesta redonda, quadro decorativo) que precisa ser produzida.</li>
+        </ul>
+      </ol>
+
+      <h4 class="mt-4">Passo 5: Fluxograma</h4>
+      <img class="img-fluid" alt="Responsive image" src="{{ url_for('static', filename='7.jpg') }}">
+    </div>
+  </div>
+</div>
 
 {% endblock %}

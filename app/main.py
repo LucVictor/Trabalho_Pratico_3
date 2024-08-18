@@ -12,10 +12,13 @@ db = SQLAlchemy(app)
 LIMITE_DE_TRABALHADOR = 2  #Limite definido pelo modelo
 LIMITE_DE_PRODUTOS = 3  #Limite definido pelo modelo
 
-def quantidade_de_trabalhador(): #Função que retorna o número de trabalhadores no banco de dados.
+def quantidade_de_trabalhador(): #Função que retorna o número de trabalhadores no banco de dados
     quantidade = Trabalhador.query.count()
     return int(quantidade)
 
+def quantidade_de_produtos(): #Função que retorna o número de produtos no banco de dados
+    quantidade = Produto.query.count()
+    return int(quantidade)
 
 def converter_decimal_para_horas(decimal): #Função para converter decimal para horas
     horas = int(decimal)
@@ -134,7 +137,10 @@ def deletar_trabalhador(trabalhador_id):
 def calculadora():
     trabalhador = Trabalhador.query.all() #Busca todos os trabalhadores do banco de dados
     produtos = Produto.query.all() #Busca todos os produtos do banco de dados
-    return render_template('/calculadora.html', trabalhador=trabalhador, produtos=produtos)
+    if quantidade_de_produtos() == LIMITE_DE_PRODUTOS and quantidade_de_trabalhador() == LIMITE_DE_TRABALHADOR: #Verifica se a calculadora está com os cadastros confome definida.
+        return render_template('/calculadora.html', trabalhador=trabalhador, produtos=produtos)
+    return render_template('erro.html', e="A calculadora não possui 2 de trabalhadores e 3 produtos cadastrados.")
+
 
 @app.route('/calcular', methods=['POST']) #Rota responsável pelo cálculo
 def calcular():

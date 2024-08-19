@@ -1,6 +1,6 @@
 # Trabalho Avaliativo - Unidade 3 - Métodos Numéricos
 
-Este rositepório contém o código desenvolvido para o trabalho avaliativo da Unidade 3 da disciplina de Métodos Numéricos do curso de Engenharia de Produção. O projeto é uma aplicação web desenvolvida em Python utilizando Flask, Numpy, HTML, Bootstrap e SQLite.
+Este rositepório contém o código desenvolvido para o trabalho avaliativo da Unidade 3 da disciplina de Métodos Numéricos do curso de Engenharia de Produção. O projeto é uma aplicação web desenvolvida em Python utilizando Flask, Numpy, HTML, Bootstrap e MariaDB.
 
 ## Objetivo do Projeto
 
@@ -33,8 +33,7 @@ O objetivo principal da aplicação é otimizar a gestão de trabalhadores e pro
 
 - **`app.py`:** Arquivo principal da aplicação, define as rotas e a lógica de negócios.
 - **`templates/`:** Diretório que contém os arquivos HTML.
-- **`static/`:** Diretório para arquivos estáticos como CSS, imagens e JavaScript.
-- **`database.db`:** Arquivo de banco de dados SQLite que armazena os dados da aplicação.
+- **`static/`:** Diretório para arquivos estáticos como CSS e imagens.
 - **`requirements.txt`:** Lista de dependências do projeto.
 
 ## Considerações Finais

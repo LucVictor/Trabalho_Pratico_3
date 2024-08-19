@@ -197,6 +197,13 @@ def resultados():
     tamanho = len(resultado) #Calcula a quantidade de resultados.
     return render_template('/resultado.html', resultados=resultado, tamanho=tamanho)
 
+@app.route('/deletar_resultado/<int:resultado_id>', methods=[ 'POST'])  #Rota que deleta resultado cadastrado.
+def deletar_resultado(resultado_id):
+    resultado = Resultados.query.get_or_404(resultado_id)  #Recebe o id do resultado.
+    db.session.delete(resultado) #Coloca o objeto resultado na fila.
+    db.session.commit()  #Deleta o resultado do banco de dados.
+    return redirect(url_for('resultados')) #Redireciona para a página de exibir trabalhador.
+
 
 @app.route('/erro', methods=['GET']) #Rota que exibe os resultados.
 def erro():

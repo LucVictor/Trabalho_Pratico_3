@@ -18,8 +18,16 @@
     {% for i in range(tamanho) %}
 <div class=" m-auto w-75 mt-4 p-1 text-center">
     <div class="fundo card border-dark border m-auto w-75">
-  <div class="card-header text-center align-items-center justify-content-center d-flex fs-4 font-weight-bold bg-success">
-      <i class="bi bi-check"></i> RESULTADO
+  <div class="card-header text-center d-flex fs-4 font-weight-bold bg-success">
+      <div class="w-100"><i class="bi bi-check"></i> RESULTADO</div>
+      <div class="ml-auto ">
+
+          <form action="/deletar_resultado/{{ resultados[i].id }}" method="post">
+                                <button class="btn btn-sm m-2" type="submit" value="Apagar">
+                               <i class="bi bi-trash-fill"></i></button>
+                                </form>
+
+      </div>
   </div>
   <div class="card-body">
     <h5 class="card-title">Informações preenchidas no formulário</h5>

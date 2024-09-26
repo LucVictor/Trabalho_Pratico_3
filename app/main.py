@@ -68,6 +68,7 @@ class Resultados(db.Model):
 
 @app.route('/', methods=['GET']) #Rota que exibe página principal
 def index():
+    db.create_all()
     return render_template('index.html')
 
 
